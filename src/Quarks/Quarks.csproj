@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
     <Authors>Codestellation Team</Authors>
     <Company>Codestellation</Company>
     <Description>Common classes, utilities and extension methods</Description>
@@ -23,6 +23,12 @@
 
   <ItemGroup>
     <PackageReference Include="Codestellation.Cepheid" Version="0.1.2" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="RandomExtensions.*.cs">
+      <DependentUpon>RandomExtensions.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>
