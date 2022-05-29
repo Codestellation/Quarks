@@ -26,7 +26,7 @@ namespace Codestellation.Quarks.Tests.Testing
                 .ConvertToArray(i => i, size);
 
             _nullList = null;
-            _emptyList = new int[0];
+            _emptyList = Array.Empty<int>();
 
             _elementOf = () => Some.ElementOf(_list);
             _indexOf = () => Some.IndexOf(_list);
