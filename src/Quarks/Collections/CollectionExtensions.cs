@@ -8,15 +8,18 @@ namespace Codestellation.Quarks.Collections
 {
     public static class CollectionExtensions
     {
-        private static readonly ConcurrentDictionary<Expression, Tuple<Delegate, Delegate>> ComparisonCache = new ConcurrentDictionary<Expression, Tuple<Delegate, Delegate>>();
+        private static readonly ConcurrentDictionary<Expression, Tuple<Delegate, Delegate>> ComparisonCache = new();
 
         public static TOutput[] ConvertToArray<TInput, TOutput>(this TInput[] self, Func<TInput, TOutput> converter)
             => ConvertToArray(self, converter, self.Length);
 
+        public static TOutput[] ConvertToArray<TInput, TOutput>(this IReadOnlyCollection<TInput> self, Func<TInput, TOutput> converter)
+            => ConvertToArray(self, converter, self.Count);
         public static TOutput[] ConvertToArray<TInput, TOutput>(this ICollection<TInput> self, Func<TInput, TOutput> converter)
             => ConvertToArray(self, converter, self.Count);
 
-        public static TOutput[] ConvertToArray<TInput, TOutput>(this IEnumerable<TInput> self, Func<TInput, TOutput> converter, int arraySize)
+        public static TOutput[] ConvertToArray<TInput, TOutput, TEnumerable>(this TEnumerable self, Func<TInput, TOutput> converter, int arraySize)
+        where TEnumerable : IEnumerable<TInput>
         {
             var result = new TOutput[arraySize];
 
@@ -29,9 +32,15 @@ namespace Codestellation.Quarks.Collections
             return result;
         }
 
+        public static List<TOutput> ConvertToList<TInput, TOutput>(this IReadOnlyCollection<TInput> self, Func<TInput, TOutput> converter)
+            => self.ConvertToList(converter, self.Count);
         public static List<TOutput> ConvertToList<TInput, TOutput>(this ICollection<TInput> self, Func<TInput, TOutput> converter)
+            => self.ConvertToList(converter, self.Count);
+
+        public static List<TOutput> ConvertToList<TInput, TOutput, TEnumerable>(this TEnumerable self, Func<TInput, TOutput> converter, int count)
+            where TEnumerable : IEnumerable<TInput>
         {
-            var result = new List<TOutput>(self.Count);
+            var result = new List<TOutput>(count);
 
             foreach (TInput input in self)
             {
@@ -41,9 +50,9 @@ namespace Codestellation.Quarks.Collections
             return result;
         }
 
-        public static bool NotEmpty<TItem>(this TItem[] self) => self.Length > 0;
+        public static bool NotEmpty<TItem>(this TItem[] self) => self.Length != 0;
 
-        public static bool NotEmpty(this ICollection self) => self.Count > 0;
+        public static bool NotEmpty(this ICollection self) => self.Count != 0;
 
         public static bool Empty<TItem>(this TItem[] self) => self.Length == 0;
 
