@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Codestellation.Quarks.Collections;
@@ -23,7 +24,7 @@ namespace Codestellation.Quarks.Tests.Testing
             const int size = 10;
             _list = Enumerable
                 .Range(0, size)
-                .ConvertToArray(i => i, size);
+                .ConvertToArray<int, int, IEnumerable<int>>(i => i, size);
 
             _nullList = null;
             _emptyList = Array.Empty<int>();
