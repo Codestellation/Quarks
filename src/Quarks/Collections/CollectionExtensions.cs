@@ -15,11 +15,9 @@ namespace Codestellation.Quarks.Collections
 
         public static TOutput[] ConvertToArray<TInput, TOutput>(this IReadOnlyCollection<TInput> self, Func<TInput, TOutput> converter)
             => ConvertToArray(self, converter, self.Count);
-        public static TOutput[] ConvertToArray<TInput, TOutput>(this ICollection<TInput> self, Func<TInput, TOutput> converter)
-            => ConvertToArray(self, converter, self.Count);
 
         public static TOutput[] ConvertToArray<TInput, TOutput, TEnumerable>(this TEnumerable self, Func<TInput, TOutput> converter, int arraySize)
-        where TEnumerable : IEnumerable<TInput>
+            where TEnumerable : IEnumerable<TInput>
         {
             var result = new TOutput[arraySize];
 
@@ -33,8 +31,6 @@ namespace Codestellation.Quarks.Collections
         }
 
         public static List<TOutput> ConvertToList<TInput, TOutput>(this IReadOnlyCollection<TInput> self, Func<TInput, TOutput> converter)
-            => self.ConvertToList(converter, self.Count);
-        public static List<TOutput> ConvertToList<TInput, TOutput>(this ICollection<TInput> self, Func<TInput, TOutput> converter)
             => self.ConvertToList(converter, self.Count);
 
         public static List<TOutput> ConvertToList<TInput, TOutput, TEnumerable>(this TEnumerable self, Func<TInput, TOutput> converter, int count)
